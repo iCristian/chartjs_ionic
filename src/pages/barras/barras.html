@@ -1,0 +1,85 @@
+<ion-header>
+
+    <ion-navbar color="rosa_p1">
+        <ion-title>IMC Gestante</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-card color="azul_p1">
+        <ion-card-header text-wrap>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-1>
+                        <ion-icon name="trending-up" left></ion-icon>
+                    </ion-col>
+                    <ion-col col-16>Cálculo de IMC de Paciente Gestante</ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-header>
+        <ion-item>
+            <ion-label color="azul_p1"><b>Peso en Kilogramos:</b></ion-label>
+            <ion-input type="number" placeholder="ej: 73.6" min="30" max="200" ng-pattern="/^[0-9]+(\.[0-9]{1,1})?$/" step="0.01" [(ngModel)]="pesoGestante" color="azuluv" align="right" [disabled]="isDisabled"></ion-input>
+
+        </ion-item>
+        <ion-item>
+            <ion-label color="azul_p1"><b>Estatura en mts.:</b></ion-label>
+            <ion-input type="number" placeholder="ej: 1.71" min="1" max="2" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" [(ngModel)]="estaturaGestante" color="azuluv" align="right" [disabled]="isDisabled"></ion-input>
+
+        </ion-item>
+        <ion-item>
+            <ion-label color="azul_p1"><b>Semanas de embarazo</b></ion-label>
+            <ion-select [(ngModel)]="semanasGestante" [disabled]="isDisabled" placeholder="ej: 21">
+                <ion-option *ngFor="let item of lineChartLabels" value="{{ item }}">{{ item }}</ion-option>
+            </ion-select>
+
+        </ion-item>
+
+        <ion-navbar color="calipso_p1">
+            <ion-buttons start>
+                <button ion-button text-center (click)="calcularImc()">
+                        Calcular
+                      </button>
+            </ion-buttons>
+
+            <ion-buttons end>
+                <button ion-button text-center (click)="borrar()">
+                        Borrar
+                      </button>
+            </ion-buttons>
+        </ion-navbar>
+
+    </ion-card>
+
+    <div *ngIf="imc">
+        <ion-card *ngIf="imc">
+            <ion-item-divider text-center color="fuccia_p1">
+                IMC Gestante
+            </ion-item-divider>
+            <ion-card-content class="text_card" align="justify" style="margin-top: 10px">
+                <p>Para una gestante de <b>{{ semanasGestante }}</b> semanas, con un peso de <b>{{ pesoGestante }} Kgs.</b> y una estatura de <b>{{ estaturaGestante }} mts.</b> </p>
+                <p style="text-align: center;">El IMC de la gestante corresponde a: <b>{{ imc }}</b></p>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <div style="display: block;">
+                        <canvas baseChart width="10pt" height="10pt" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                    <p style="text-align: center;"><small>Semanas de Embarazo</small></p>
+                    <ion-item-divider text-right color="gris_p1" text-wrap>
+                        <ion-icon name="bookmark" color="azul_p1"></ion-icon> <b>Fuente: </b>(Atalah, Castillo, Castro, &amp; Aldea, 1997)
+                    </ion-item-divider>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+
+
+    <img class="imgOyP" src="assets/imgs/UVOYP.png" />
+
+</ion-content>

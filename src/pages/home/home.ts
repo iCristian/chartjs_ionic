@@ -11,4 +11,8 @@ export class HomePage {
 
   }
 
+  barras(){
+    this.navCtrl.push("BarrasPage");
+  }
+
 }
